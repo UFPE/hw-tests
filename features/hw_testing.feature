@@ -6,6 +6,7 @@ Feature: Testing instructor created homeworks
   Scenario: The project is cloned from AV/rag repo and installed
     Given the AutoGrader is cloned and gems are installed
     When I run cucumber for AutoGrader
+    And I should see the execution results
     Then I should see that there are no errors
 
   Scenario: Runs the AutoGrader on the homework
@@ -16,10 +17,18 @@ Feature: Testing instructor created homeworks
     Then I should see that there are no errors
     And I should see the execution results
 
-  Scenario:
+  Scenario: Runs the AutoGrader against solution and expects correct results
     Given I have the homework in "hw/ruby-intro"
     When I run AutoGrader with the following spec sheet:
-      | test_subject           | spec                     | expected_result |
-      | solutions/lib/part1.rb | autograder/part1_spec.rb | 100:100         |
+      | test_subject           | spec                     | expected_result             |
+      | solutions/lib/part1.rb | autograder/part1_spec.rb | Score out of 100: 100       |
+    Then I should see the expected result
+    And I should see the execution results
+
+  Scenario: Runs the AutoGrader against skeleton and expects less correct results
+    Given I have the homework in "hw/ruby-intro"
+    When I run AutoGrader with the following spec sheet:
+      | test_subject           | spec                     | expected_result      |
+      | public/lib/part1.rb    | autograder/part1_spec.rb | Score out of 100: 5  |
     Then I should see the expected result
     And I should see the execution results

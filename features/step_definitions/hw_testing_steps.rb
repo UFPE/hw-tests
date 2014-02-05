@@ -47,10 +47,14 @@ end
 
 Then /I should see the execution results/ do
   puts @test_status
+  puts @test_status
   puts @test_errors
   puts @test_output
 end
 
+Then(/^I should see the expected result$/) do
+  expect(@test_output).to match /Score out of 100: 100/
+end
 
 
 
