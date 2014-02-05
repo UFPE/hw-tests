@@ -8,9 +8,12 @@ Feature: Testing instructor created homeworks
     When I run cucumber for AutoGrader
     Then I should see that there are no errors
 
-
-
-
+  Scenario: Runs the AutoGrader on the homework
+    Given the following spec sheet:
+      | test subject                         | spec                                  |
+      | hw/ruby-intro/solutions/lib/part1.rb |hw/ruby-intro/autograder/part1_spec.rb |
+    When I run the AutoGrader on this homework
+    Then I should see that there are no errors
 
 
 #  Scenario: confirms AutoGrader setup

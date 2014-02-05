@@ -1,5 +1,6 @@
 require 'open3'
 
+<<<<<<< HEAD
 Given /I have AutoGrader setup/ do
   cli_string = 'cucumber'
   ENV['BUNDLE_GEMFILE']='Gemfile'
@@ -12,6 +13,50 @@ Given /I have AutoGrader setup/ do
 end
 
 Given(/^that I am in the project root directory "(.*?)"$/) do |project_dir|
+=======
+# GIVEN STEPS
+#
+#Given /I have AutoGrader setup/ do
+#  Dir.chdir('rag') do
+#    ENV['BUNDLE_GEMFILE']='Gemfile'
+#    puts `bundle install --deployment`
+#    puts `cucumber`
+#  end
+#end
+
+
+Given(/^the AutoGrader is cloned and gems are installed$/) do
+  expect(Dir).to exist("rag")
+end
+
+When /^I run cucumber for AutoGrader$/ do
+  @test_output, @test_errors, @test_status = Open3.capture3(
+      { 'BUNDLE_GEMFILE' => 'Gemfile' }, 'bundle exec cucumber' , :chdir => 'rag'
+  )
+end
+
+Then(/^I should see that there are no errors$/) do
+  expect(@test_status).to be_success
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Given /^that I am in the project root directory "(.*?)"$/ do |project_dir|
+>>>>>>> 05c81ec... Added Runs the AutoGrader Scenario
   @project_dir = project_dir
   expect(File.basename(Dir.getwd)).to eq @project_dir
 end
@@ -87,8 +132,11 @@ And(/^I run cucumber in "rag"$/) do
     `cucumber`
   end
 end
+<<<<<<< HEAD
 Then /^I run cucumber in "rag"$/ do
   @test_output, @test_errors, @test_status = Open3.capture3(
       { 'BUNDLE_GEMFILE' => 'Gemfile' }, 'bundle exec cucumber', :chdir => 'rag'
   )
 end
+=======
+>>>>>>> 05c81ec... Added Runs the AutoGrader Scenario
