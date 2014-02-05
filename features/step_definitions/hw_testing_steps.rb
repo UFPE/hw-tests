@@ -19,7 +19,7 @@ def run_ag(subject, spec)
 end
 
 Given(/^the AutoGrader is cloned and gems are installed$/) do
-  expect(Dir).to exist("rag")
+  expect(Dir).to exist('rag')
 end
 
 When /^I run cucumber for AutoGrader$/ do
@@ -37,6 +37,9 @@ Given /I run AutoGrader with the following spec sheet:/ do |table|
   table.hashes.each do |hash|
     test_subject_path = "../#{@hw_path}/#{hash[:test_subject]}"
     spec_path = "../#{@hw_path}/#{hash[:spec]}"
+
+    @expected_result = hash[:expected_result]
+
     run_ag(test_subject_path, spec_path)
   end
 end
@@ -47,13 +50,12 @@ end
 
 Then /I should see the execution results/ do
   puts @test_status
-  puts @test_status
   puts @test_errors
   puts @test_output
 end
 
 Then(/^I should see the expected result$/) do
-  expect(@test_output).to match /Score out of 100: 100/
+  expect(@test_output).to match /#{@expected_result}/
 end
 
 
