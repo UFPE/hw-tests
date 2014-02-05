@@ -1,6 +1,5 @@
 require 'open3'
 
-<<<<<<< HEAD
 Given /I have AutoGrader setup/ do
   cli_string = 'cucumber'
   ENV['BUNDLE_GEMFILE']='Gemfile'
@@ -12,18 +11,12 @@ Given /I have AutoGrader setup/ do
   expect(@test_status).to be_success
 end
 
-Given(/^that I am in the project root directory "(.*?)"$/) do |project_dir|
-=======
-# GIVEN STEPS
-#
-#Given /I have AutoGrader setup/ do
-#  Dir.chdir('rag') do
-#    ENV['BUNDLE_GEMFILE']='Gemfile'
-#    puts `bundle install --deployment`
-#    puts `cucumber`
-#  end
-#end
-
+def run_ag(subject, spec)
+  cli_string = "./grade #{subject} #{spec}"
+  @test_output, @test_errors, @test_status = Open3.capture3(
+      { 'BUNDLE_GEMFILE' => 'Gemfile' }, cli_string, :chdir => 'rag'
+  )
+end
 
 Given(/^the AutoGrader is cloned and gems are installed$/) do
   expect(Dir).to exist("rag")
@@ -31,7 +24,7 @@ end
 
 When /^I run cucumber for AutoGrader$/ do
   @test_output, @test_errors, @test_status = Open3.capture3(
-      { 'BUNDLE_GEMFILE' => 'Gemfile' }, 'bundle exec cucumber' , :chdir => 'rag'
+      { 'BUNDLE_GEMFILE' => 'Gemfile' }, 'bundle exec cucumber', :chdir => 'rag'
   )
 end
 
@@ -40,15 +33,23 @@ Then(/^I should see that there are no errors$/) do
 end
 
 
+Given /I run AutoGrader with the following spec sheet:/ do |table|
+  table.hashes.each do |hash|
+    test_subject_path = "../#{@hw_path}/#{hash[:test_subject]}"
+    spec_path = "../#{@hw_path}/#{hash[:spec]}"
+    run_ag(test_subject_path, spec_path)
+  end
+end
 
+Given /I have the homework in "([^"]*)"/ do |path|
+  @hw_path = path
+end
 
-
-
-
-
-
-
-
+Then /I should see the execution results/ do
+  puts @test_status
+  puts @test_errors
+  puts @test_output
+end
 
 
 
@@ -56,7 +57,6 @@ end
 
 
 Given /^that I am in the project root directory "(.*?)"$/ do |project_dir|
->>>>>>> 05c81ec... Added Runs the AutoGrader Scenario
   @project_dir = project_dir
   expect(File.basename(Dir.getwd)).to eq @project_dir
 end
@@ -83,20 +83,6 @@ end
 When(/^I check each homeworks directory$/) do
   expect(Dir).to exist(@hw)
   @homeworks = Dir.glob("#{@hw}/*").select { |f| File.directory? f }
-end
-
-Then(/^I should see a directory "(.*?)" with at least one file$/) do |dir_name|
-  @homeworks.each do |hw|
-    dir = "#{hw}/#{dir_name}"
-    expect(Dir).to exist(dir)
-    # requires at least one file with extension in subtree, allows empty folders
-    dir_files = Dir[dir+'/**/*.*']
-    expect(dir_files).not_to be_empty
-  end
-end
-
-Given(/^I have a homework "(.*?)"$/) do |hw_name|
-  expect(Dir).to exist("#{@hw}/#{hw_name}")
 end
 
 When(/^I run the AutoGrader on this homework$/) do
@@ -132,11 +118,3 @@ And(/^I run cucumber in "rag"$/) do
     `cucumber`
   end
 end
-<<<<<<< HEAD
-Then /^I run cucumber in "rag"$/ do
-  @test_output, @test_errors, @test_status = Open3.capture3(
-      { 'BUNDLE_GEMFILE' => 'Gemfile' }, 'bundle exec cucumber', :chdir => 'rag'
-  )
-end
-=======
->>>>>>> 05c81ec... Added Runs the AutoGrader Scenario
