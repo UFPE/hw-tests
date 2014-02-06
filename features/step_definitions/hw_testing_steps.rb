@@ -36,13 +36,12 @@ Then(/^I should see that the results are (.*)$/) do |expected_result|
 end
 
 And(/^I should see the execution results with (.*)$/) do |test_title|
-  success = @test_status.success? ? 'success' : 'failure'
-  puts test_title + ': ' + success
+  success = @test_status.success? ? 'Success' : 'Failure'
+  puts success + '!'
 end
 
 Then(/^I should see that there are no errors$/) do
   expect(@test_status).to be_success
-  puts '...Success!'
 end
 
 Then(/I should see the execution results$/) do

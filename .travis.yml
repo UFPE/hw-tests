@@ -10,7 +10,7 @@ script:
   - cd rag
   - git checkout develop
   - BUNDLE_GEMFILE=Gemfile
-  - bundle install
+  - bundle install --quiet
   - cd ..
   - BUNDLE_GEMFILE=Gemfile
   - bundle exec cucumber
