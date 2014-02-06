@@ -6,7 +6,6 @@ Feature: Testing instructor created homeworks
   Scenario: The project is cloned from AV/rag repo and installed
     Given the AutoGrader is cloned and gems are installed
     When I run cucumber for AutoGrader
-    And I should see the execution results
     Then I should see that there are no errors
 
   Scenario Outline: Runs AutoGrader with a given spec sheet
@@ -15,6 +14,10 @@ Feature: Testing instructor created homeworks
     Then I should see that the results are <expected_result>
     And I should see the execution results with <test_title>
   Examples:
-  | test_title         | test_subject           | spec                     | expected_result       |
-  | specs vs solution  | solutions/lib/part1.rb | autograder/part1_spec.rb | Score out of 100: 100 |
-  | specs vs skeleton  | public/lib/part1.rb    | autograder/part1_spec.rb | Score out of 100: 5   |
+  | test_title                | test_subject           | spec                     | expected_result       |
+  | Part1: specs vs solution  | solutions/lib/part1.rb | autograder/part1_spec.rb | Score out of 100: 100 |
+  | Part1: specs vs skeleton  | public/lib/part1.rb    | autograder/part1_spec.rb | Score out of 100: 5   |
+  | Part2: specs vs solution  | solutions/lib/part1.rb | autograder/part2_spec.rb | Score out of 100: 0   |
+  | Part2: specs vs skeleton  | public/lib/part2.rb    | autograder/part2_spec.rb | Score out of 100: 30  |
+  | Part3: specs vs solution  | solutions/lib/part1.rb | autograder/part3_spec.rb | Score out of 100: 0   |
+  | Part3: specs vs skeleton  | public/lib/part3.rb    | autograder/part3_spec.rb | Score out of 100: 30  |

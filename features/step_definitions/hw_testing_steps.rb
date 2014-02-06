@@ -1,16 +1,5 @@
 require 'open3'
 
-Given /I have AutoGrader setup/ do
-  cli_string = 'cucumber'
-  ENV['BUNDLE_GEMFILE']='Gemfile'
-  puts 'Running cucumber and rspec tests on RAG....'
-  Dir.chdir('rag') do
-    @test_output, @test_errors, @test_status = Open3.capture3(cli_string)
-  end
-
-  expect(@test_status).to be_success
-end
-
 def run_ag(subject, spec)
   cli_string = "./grade ../#{subject} ../#{spec}"
   @test_output, @test_errors, @test_status = Open3.capture3(
@@ -19,7 +8,6 @@ def run_ag(subject, spec)
 end
 
 ## Given steps
-
 Given(/^the AutoGrader is cloned and gems are installed$/) do
   expect(Dir).to exist('rag')
 end
@@ -31,6 +19,7 @@ end
 ## When steps
 
 When /^I run cucumber for AutoGrader$/ do
+  print 'Running cucumber and rspec tests on RAG....'
   @test_output, @test_errors, @test_status = Open3.capture3(
       { 'BUNDLE_GEMFILE' => 'Gemfile' }, 'bundle exec cucumber', :chdir => 'rag'
   )
@@ -49,11 +38,11 @@ end
 And(/^I should see the execution results with (.*)$/) do |test_title|
   success = @test_status.success? ? 'success' : 'failure'
   puts test_title + ': ' + success
-  expect(success).to eq 'success'
 end
 
 Then(/^I should see that there are no errors$/) do
   expect(@test_status).to be_success
+  puts '...Success!'
 end
 
 Then(/I should see the execution results$/) do
