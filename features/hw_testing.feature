@@ -12,8 +12,9 @@ Feature: Testing instructor created homeworks
   Scenario Outline: Runs AutoGrader with a given spec sheet
     Given I have the homework in "hw/ruby-intro"
     When I run AutoGrader for <test_subject> and <spec>
-    Then I should see the <expected_result>
+    Then I should see that the results are <expected_result>
     And I should see the execution results with <test_title>
   Examples:
-  | test_title         | test_subject           | spec                     | expected_result      |
-  | solutions vs specs | public/lib/part1.rb    | autograder/part1_spec.rb | Score out of 100: 5  |
+  | test_title         | test_subject           | spec                     | expected_result       |
+  | specs vs solution  | solutions/lib/part1.rb | autograder/part1_spec.rb | Score out of 100: 100 |
+  | specs vs skeleton  | public/lib/part1.rb    | autograder/part1_spec.rb | Score out of 100: 5   |
