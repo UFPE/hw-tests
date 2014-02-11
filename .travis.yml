@@ -6,11 +6,11 @@ before_install:
   - gem update --system 2.2.0
   - gem --version
 script:
-  - git clone https://github.com/YaroSpace/rag.git rag
+  - git clone https://github.com/AgileVentures/rag.git rag
   - cd rag
   - git checkout develop
   - BUNDLE_GEMFILE=Gemfile
-  - bundle install
+  - bundle install --quiet
   - cd ..
   - BUNDLE_GEMFILE=Gemfile
   - bundle exec cucumber

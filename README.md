@@ -1,3 +1,5 @@
+saasbook/hw-tests Master [![Build Status](https://travis-ci.org/saasbook/hw-tests.png)](https://travis-ci.org/saasbook/hw-tests)
+
 ### Model of an instructor's private homework repo
 
 - hw-tests/

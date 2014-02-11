@@ -3,21 +3,21 @@ Feature: Testing instructor created homeworks
   As a AutoGrader maintainer
   I would like these homeworks to be automatically tested on submit
 
-  Scenario: Checks the homeworks file structure
-  Scenario: Checks that all necessary files are present
-  Scenario: Checks that the supplied files are of correct format
-  Scenario: AutoGrader run results are visible in Travis
+  Scenario: The project is cloned from AV/rag repo and installed
+    Given the AutoGrader is cloned and gems are installed
+    When I run cucumber for AutoGrader
+    Then I should see that there are no errors
 
-  Scenario: Runs an AutoGrader grading process on supplied homework
-    Given I have AutoGrader setup
-    Given I have a homework "ruby-intro" in the repo
-    When I run the AutoGrader on this homework
-    Then I should see no runtime errors
-    And I should see test results
-
-  Scenario: Runs AG with provided solution and spec
-  Scenario: Runs AG with provided skeletons and spec
-  Scenario: Runs AG with provided solution an skeleton spec
-
-  Scenario: AutoGrader runs test grading process for all homeworks in the repo
-
+  Scenario Outline: Runs AutoGrader with a given spec sheet
+    Given I have the homework in "ruby-intro"
+    When I run AutoGrader for <test_subject> and <spec>
+    Then I should see that the results are <expected_result>
+    And I should see the execution results with <test_title>
+  Examples:
+  | test_title                | test_subject           | spec                     | expected_result       |
+  | Part1: specs vs solution  | solutions/lib/part1.rb | autograder/part1_spec.rb | Score out of 100: 100 |
+  | Part1: specs vs skeleton  | public/lib/part1.rb    | autograder/part1_spec.rb | Score out of 100: 5   |
+  | Part2: specs vs solution  | solutions/lib/part1.rb | autograder/part2_spec.rb | Score out of 100: 0   |
+  | Part2: specs vs skeleton  | public/lib/part2.rb    | autograder/part2_spec.rb | Score out of 100: 30  |
+  | Part3: specs vs solution  | solutions/lib/part1.rb | autograder/part3_spec.rb | Score out of 100: 0   |
+  | Part3: specs vs skeleton  | public/lib/part3.rb    | autograder/part3_spec.rb | Score out of 100: 30  |
